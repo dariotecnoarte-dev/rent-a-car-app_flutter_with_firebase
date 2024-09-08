@@ -1,10 +1,13 @@
 import 'package:car_rental_app/presentations/pages/car_details_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-//1:29:30
+import '../../data/models/car.dart';
+
 class MapsDetailPage extends StatelessWidget {
-  const MapsDetailPage({super.key});
+  final Car car;
+  const MapsDetailPage({super.key, required this.car});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,6 @@ class MapsDetailPage extends StatelessWidget {
           FlutterMap(
             options: const MapOptions(
               initialCenter: LatLng(-8.839988, 13.289437),
-              //initialCenter: LatLng(-23.550520, -46.633308),
               initialZoom: 13,
             ),
             children: [
@@ -39,15 +41,16 @@ class MapsDetailPage extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            child: carDetailsCard(),
-          )
+            child: carDetailsCard(car: car),
+          ),
+
         ],
       ),
     );
   }
 }
 
-Widget carDetailsCard() {
+Widget carDetailsCard({required Car car}) {
   return SizedBox(
     height: 350,
     child: Stack(
@@ -68,34 +71,34 @@ Widget carDetailsCard() {
                   blurRadius: 10,
                 )
               ]),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
-                "car.model",
-                style: TextStyle(
+                "${car.model}",
+                style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.directions_car, color: Colors.white, size: 16),
-                  SizedBox(width: 5),
+                  const Icon(Icons.directions_car, color: Colors.white, size: 16),
+                  const SizedBox(width: 5),
                   Text(
-                "> car.distance km",
-                style: TextStyle(
+                "> ${car.distance} km",
+                style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                     ),
               ),
-              SizedBox(width: 10),
-              Icon(Icons.battery_full, color: Colors.white, size: 16,),
+              const SizedBox(width: 10),
+              const Icon(Icons.battery_full, color: Colors.white, size: 16,),
               Text(
-                "> car.fuelcapacity",
-                style: TextStyle(
+                "> ${car.fuelCapacity.toString()}",
+                style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                     ),
@@ -135,9 +138,9 @@ Widget carDetailsCard() {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "\$car.priceperhour/day",
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      Text(
+                        "\$${car.pricePerHour}/day",
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                       ElevatedButton(
                         onPressed: (){}, 
@@ -157,7 +160,13 @@ Widget carDetailsCard() {
               ],
             ),
           ),
-        )
+        ),
+
+        Positioned(
+          top: 50,
+          left: 250,
+          child: Image.asset("assets/white_car.png"),
+          )
       ],
     ),
   );
@@ -178,7 +187,7 @@ Widget featureIcon(IconData icon, String title, String subtitle){
   return Container(
     width: 100,
     height: 100,
-    padding: EdgeInsets.all(5),
+    padding: const EdgeInsets.all(5),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
       border: Border.all(color: Colors.grey, width: 1),
@@ -189,7 +198,7 @@ Widget featureIcon(IconData icon, String title, String subtitle){
         Text(title),
         Text(
           subtitle,
-          style: TextStyle(color: Colors.grey, fontSize: 10),
+          style: const TextStyle(color: Colors.grey, fontSize: 10),
         )
       ],
     ),
